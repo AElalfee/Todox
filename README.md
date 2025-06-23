@@ -4,6 +4,10 @@
 A lightweight command-line TODO application written in Python that stores your tasks in a local JSON file.  
 Easily add, update, delete, and manage tasks with clear statuses: `todo`, `in_progress`, and `done`.
 
+<a href="https://roadmap.sh/projects/task-tracker" target="_blank">
+<img src="todox.gif" alt="Preview">
+</a>
+
 
 ## Features
 
