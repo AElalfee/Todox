@@ -32,11 +32,10 @@ def get_task_by_id(id: int):
 
 
 def get_tasks(status: str = None):
-    if status not in STATUS_OPTIONS:
-        # TODO: Handle invalid status
-        return
     tasks = load_tasks()
     if status:
+        if status not in STATUS_OPTIONS:
+            return
         return [task for task in tasks if task["status"] == status]
     return tasks
 
