@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from storage import load_tasks, save_tasks
+from utils import now_iso
 
 STATUS_OPTIONS = ["todo", "in_progress", "done"]
 
@@ -16,13 +15,12 @@ def add_task(description: str, status: str = "todo"):
             next_id = max(task["id"] for task in tasks) + 1
         except ValueError:
             pass
-    now = datetime.now().isoformat()
     task = {
         "id": next_id,
         "description": description,
         "status": status,
-        "created_at": now,
-        "updated_at": now,
+        "created_at": now_iso(),
+        "updated_at": now_iso(),
     }
     tasks.append(task)
     save_tasks(tasks)
@@ -48,7 +46,7 @@ def update_task(id: int, description: str):
     for task in tasks:
         if task["id"] == id:
             task["description"] = description
-            task["updated_at"] = datetime.now().isoformat()
+            task["updated_at"] = now_iso()
             save_tasks(tasks)
             return
 
@@ -61,7 +59,7 @@ def update_task_status(id: int, status: str):
     for task in tasks:
         if task["id"] == id:
             task["status"] = status
-            task["updated_at"] = datetime.now().isoformat()
+            task["updated_at"] = now_iso()
             save_tasks(tasks)
             return
 
