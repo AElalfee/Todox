@@ -11,8 +11,8 @@ def load_tasks():
     with open(FILE_NAME, "r") as f:
         try:
             return json.load(f)
-        except json.JSONDecodeError:
-            # TODO: Handle the case where the file is empty or corrupted
+        except json.JSONDecodeError as e:
+            print(f"Error: {e}")
             return []
 
 

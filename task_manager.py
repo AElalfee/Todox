@@ -7,7 +7,9 @@ STATUS_OPTIONS = ["todo", "in_progress", "done"]
 def add_task(description: str, status: str = "todo"):
     next_id = 1
     if status not in STATUS_OPTIONS:
-        # TODO: Handle invalid status
+        print(
+            f"Error: {status} is not in the following options [todo, in_progress, done]."
+        )
         return
     tasks = load_tasks()
     if tasks:
@@ -52,7 +54,9 @@ def update_task(id: int, description: str):
 
 def update_task_status(id: int, status: str):
     if status not in STATUS_OPTIONS:
-        # TODO: Handle invalid status
+        print(
+            f"Error: {status} is not in the following options [todo, in_progress, done]."
+        )
         return
     tasks = load_tasks()
     for task in tasks:
