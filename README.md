@@ -31,20 +31,40 @@ Easily add, update, delete, and manage tasks with clear statuses: `todo`, `in_pr
 
 Make sure you have Python 3 installed.
 
-1- **Clone the repository**:
+- **Clone the repository**:
 
 ```bash
   git clone https://github.com/AElalfee/Todox.git
+  
   cd todox
 ```
 
-2- **Make the file executable**:
+- **Install depenedencies**
+
+```bash
+pip install -r requirements.txt 
+```
+
+- **Create virtual environment**
+
+```bash
+python3 -m venv .venv
+```
+
+
+- **Activate virtual environment**
+
+```bash
+source .venv/Scripts/activate
+```
+
+- **Make the file executable**:
 
 ```bash
 chmod +x todox
 ```
 
-3- **Move it to a location in your `PATH`** (e.g., /usr/local/bin):
+- **Move it to a location in your `PATH`** (e.g., /usr/local/bin):
 
 ```bash
 sudo mv todox /usr/local/bin/
@@ -56,6 +76,13 @@ sudo mv todox /usr/local/bin/
 
 ```bash
 todox add -d "First task"
+
+╭──────┬───────────────┬──────────┬─────────────────────────┬─────────────────────────╮
+│   id │ description   │ status   │ created_at              │ updated_at              │
+├──────┼───────────────┼──────────┼─────────────────────────┼─────────────────────────┤
+│    1 │ First task    │ todo     │ 24 Jun 2025 at 13:22:46 │ 24 Jun 2025 at 13:22:46 │
+╰──────┴───────────────┴──────────┴─────────────────────────┴─────────────────────────╯
+
 ```
 
 - **List tasks**:
@@ -63,7 +90,12 @@ todox add -d "First task"
 ```bash
 todox list
 
-[{'id': 1, 'description': 'First task', 'status': 'todo', 'created_at': '2025-06-23T15:59:39.889091', 'updated_at': '2025-06-23T15:59:39.889117'}]
+╭──────┬───────────────┬──────────┬─────────────────────────┬─────────────────────────╮
+│   id │ description   │ status   │ created_at              │ updated_at              │
+├──────┼───────────────┼──────────┼─────────────────────────┼─────────────────────────┤
+│    1 │ First task    │ todo     │ 24 Jun 2025 at 13:22:46 │ 24 Jun 2025 at 13:22:46 │
+╰──────┴───────────────┴──────────┴─────────────────────────┴─────────────────────────╯
+
 ```
 
 - **Get task by id**:
@@ -71,19 +103,38 @@ todox list
 ```bash
 todox get -i 1
 
-[{'id': 1, 'description': 'First task', 'status': 'todo', 'created_at': '2025-06-23T15:59:39.889091', 'updated_at': '2025-06-23T15:59:39.889117'}]
+╭──────┬───────────────┬──────────┬─────────────────────────┬─────────────────────────╮
+│   id │ description   │ status   │ created_at              │ updated_at              │
+├──────┼───────────────┼──────────┼─────────────────────────┼─────────────────────────┤
+│    1 │ First task    │ todo     │ 24 Jun 2025 at 13:22:46 │ 24 Jun 2025 at 13:22:46 │
+╰──────┴───────────────┴──────────┴─────────────────────────┴─────────────────────────╯
+
 ```
 
 - **Update task**:
 
 ```bash
 todox update -i 1 -d "Write code"
+
+╭──────┬───────────────┬──────────┬─────────────────────────┬─────────────────────────╮
+│   id │ description   │ status   │ created_at              │ updated_at              │
+├──────┼───────────────┼──────────┼─────────────────────────┼─────────────────────────┤
+│    1 │ Write code    │ todo     │ 24 Jun 2025 at 13:22:46 │ 24 Jun 2025 at 13:23:48 │
+╰──────┴───────────────┴──────────┴─────────────────────────┴─────────────────────────╯
+
 ```
 
 - **Update task Status**:
 
 ```bash
 todox status -i 1 -s in_progress
+
+╭──────┬───────────────┬─────────────┬─────────────────────────┬─────────────────────────╮
+│   id │ description   │ status      │ created_at              │ updated_at              │
+├──────┼───────────────┼─────────────┼─────────────────────────┼─────────────────────────┤
+│    1 │ Write code    │ in_progress │ 24 Jun 2025 at 13:22:46 │ 24 Jun 2025 at 13:24:20 │
+╰──────┴───────────────┴─────────────┴─────────────────────────┴─────────────────────────╯
+
 ```
 
 - **Delete task**:
@@ -97,5 +148,10 @@ todox delete -i 1
 ```bash
 todox list -s in_progress
 
-[{'id': 1, 'description': 'Write code', 'status': 'in_progress', 'created_at': '2025-06-23T15:59:39.889091', 'updated_at': '2025-06-23T16:05:32.964807'}]
+╭──────┬───────────────┬─────────────┬─────────────────────────┬─────────────────────────╮
+│   id │ description   │ status      │ created_at              │ updated_at              │
+├──────┼───────────────┼─────────────┼─────────────────────────┼─────────────────────────┤
+│    1 │ Write code    │ in_progress │ 24 Jun 2025 at 13:22:46 │ 24 Jun 2025 at 13:24:20 │
+╰──────┴───────────────┴─────────────┴─────────────────────────┴─────────────────────────╯
+
 ```
