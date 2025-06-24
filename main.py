@@ -78,9 +78,9 @@ def main():
     elif args.command == "status":
         update_task_status(args.id, args.status)
     elif args.command == "get":
-        print(get_task_by_id(args.id))
+        get_task_by_id(args.id)
     elif args.command == "list":
-        print(get_tasks(args.status if hasattr(args, "status") else None))
+        get_tasks(args.status if hasattr(args, "status") else None)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,7 @@
+from tabulate import tabulate
+
 from storage import load_tasks, save_tasks
-from utils import now_iso, date_format
+from utils import date_format, now_iso
 
 STATUS_OPTIONS = ["todo", "in_progress", "done"]
 
@@ -16,7 +18,7 @@ def add_task(description: str, status: str = "todo"):
         try:
             next_id = max(task["id"] for task in tasks) + 1
         except ValueError as e:
-            print(f'Error: {e}')
+            print(f"Error: {e}")
             return
     task = {
         "id": next_id,
@@ -27,6 +29,9 @@ def add_task(description: str, status: str = "todo"):
     }
     tasks.append(task)
     save_tasks(tasks)
+    task["created_at"] = date_format(task["created_at"])
+    task["updated_at"] = date_format(task["updated_at"])
+    print(tabulate([task], headers="keys", tablefmt="rounded_outline"))
 
 
 def get_task_by_id(id: int):
@@ -35,7 +40,8 @@ def get_task_by_id(id: int):
         if task["id"] == id:
             task["created_at"] = date_format(task["created_at"])
             task["updated_at"] = date_format(task["updated_at"])
-            return task
+            print(tabulate([task], headers="keys", tablefmt="rounded_outline"))
+            return
     print(f"No task found with this ID: {id}")
 
 
@@ -52,7 +58,7 @@ def get_tasks(status: str = None):
     for task in tasks:
         task["created_at"] = date_format(task["created_at"])
         task["updated_at"] = date_format(task["updated_at"])
-    return tasks
+    print(tabulate(tasks, headers="keys", tablefmt="rounded_outline"))
 
 
 def update_task(id: int, description: str):
@@ -62,6 +68,9 @@ def update_task(id: int, description: str):
             task["description"] = description
             task["updated_at"] = now_iso()
             save_tasks(tasks)
+            task["created_at"] = date_format(task["created_at"])
+            task["updated_at"] = date_format(task["updated_at"])
+            print(tabulate([task], headers="keys", tablefmt="rounded_outline"))
             return
     print(f"No task found with this ID: {id}")
 
@@ -78,6 +87,9 @@ def update_task_status(id: int, status: str):
             task["status"] = status
             task["updated_at"] = now_iso()
             save_tasks(tasks)
+            task["created_at"] = date_format(task["created_at"])
+            task["updated_at"] = date_format(task["updated_at"])
+            print(tabulate([task], headers="keys", tablefmt="rounded_outline"))
             return
     print(f"No task found with this ID: {id}")
 
