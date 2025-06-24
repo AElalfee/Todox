@@ -1,5 +1,5 @@
 from storage import load_tasks, save_tasks
-from utils import now_iso
+from utils import now_iso, date_format
 
 STATUS_OPTIONS = ["todo", "in_progress", "done"]
 
@@ -15,8 +15,9 @@ def add_task(description: str, status: str = "todo"):
     if tasks:
         try:
             next_id = max(task["id"] for task in tasks) + 1
-        except ValueError:
-            pass
+        except ValueError as e:
+            print(f'Error: {e}')
+            return
     task = {
         "id": next_id,
         "description": description,
@@ -30,15 +31,27 @@ def add_task(description: str, status: str = "todo"):
 
 def get_task_by_id(id: int):
     tasks = load_tasks()
-    return [task for task in tasks if task["id"] == id]
+    for task in tasks:
+        if task["id"] == id:
+            task["created_at"] = date_format(task["created_at"])
+            task["updated_at"] = date_format(task["updated_at"])
+            return task
+    print(f"No task found with this ID: {id}")
 
 
 def get_tasks(status: str = None):
     tasks = load_tasks()
     if status:
         if status not in STATUS_OPTIONS:
+            print(
+                f"Error: {status} is not in the following options [todo, in_progress, done]."
+            )
             return
-        return [task for task in tasks if task["status"] == status]
+        tasks = [task for task in tasks if task["status"] == status]
+
+    for task in tasks:
+        task["created_at"] = date_format(task["created_at"])
+        task["updated_at"] = date_format(task["updated_at"])
     return tasks
 
 
@@ -50,6 +63,7 @@ def update_task(id: int, description: str):
             task["updated_at"] = now_iso()
             save_tasks(tasks)
             return
+    print(f"No task found with this ID: {id}")
 
 
 def update_task_status(id: int, status: str):
@@ -65,6 +79,7 @@ def update_task_status(id: int, status: str):
             task["updated_at"] = now_iso()
             save_tasks(tasks)
             return
+    print(f"No task found with this ID: {id}")
 
 
 def delete_task(id: int):
