@@ -1,4 +1,6 @@
 .venv
 
-tasks.json
+*.json
+
+
 __pycache__

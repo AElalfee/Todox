@@ -1,6 +1,6 @@
 from tabulate import tabulate
 
-from storage import load_tasks, save_tasks
+from storage import load_tasks, save_tasks, load_archived_tasks, save_archived_tasks
 from utils import date_format, now_iso
 
 STATUS_OPTIONS = ["todo", "in_progress", "done"]
@@ -98,3 +98,27 @@ def delete_task(id: int):
     tasks = load_tasks()
     tasks = [task for task in tasks if task["id"] != id]
     save_tasks(tasks)
+
+
+def archive_done_tasks():
+    tasks = load_tasks()
+    archived_tasks = load_archived_tasks()
+
+    archived = [task for task in tasks if task["status"] == "done"]
+    tasks = [task for task in tasks if task["status"] != "done"]
+
+    if archived:
+        archived_tasks.extend(archived)
+        save_archived_tasks(archived_tasks)
+        save_tasks(tasks)
+        print(f"Archived {len(archived)} task(s).")
+    else:
+        print("No done tasks to archive.")
+
+
+def get_archived_tasks():
+    archived_tasks = load_archived_tasks()
+    for task in archived_tasks:
+        task["created_at"] = date_format(task["created_at"])
+        task["updated_at"] = date_format(task["updated_at"])
+    print(tabulate(archived_tasks, headers="keys", tablefmt="rounded_outline"))
