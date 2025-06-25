@@ -7,6 +7,8 @@ from task_manager import (
     get_tasks,
     update_task,
     update_task_status,
+    archive_done_tasks,
+    get_archived_tasks,
 )
 
 
@@ -66,6 +68,13 @@ def main():
         choices=["todo", "in_progress", "done"],
         nargs="?",
     )
+    parser_list.add_argument(
+        "--archive",
+        action="store_true",
+        help="List all archived tasks.",
+    )
+
+    subparsers.add_parser("archive", help="Archive all done tasks")
 
     args = parser.parse_args()
 
@@ -80,7 +89,12 @@ def main():
     elif args.command == "get":
         get_task_by_id(args.id)
     elif args.command == "list":
-        get_tasks(args.status if hasattr(args, "status") else None)
+        if args.archive:
+            get_archived_tasks()
+        else:
+            get_tasks(args.status if hasattr(args, "status") else None)
+    elif args.command == "archive":
+        archive_done_tasks()
 
 
 if __name__ == "__main__":
