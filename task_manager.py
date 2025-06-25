@@ -108,7 +108,16 @@ def archive_done_tasks():
     tasks = [task for task in tasks if task["status"] != "done"]
 
     if archived:
-        archived_tasks.extend(archived)
+        if archived_tasks:
+            next_id = max(task["id"] for task in archived_tasks) + 1
+        else:
+            next_id = 1
+
+        for i, task in enumerate(archived):
+            task = task.copy()
+            task["id"] = next_id + i
+            archived_tasks.append(task)
+
         save_archived_tasks(archived_tasks)
         save_tasks(tasks)
         print(f"Archived {len(archived)} task(s).")
